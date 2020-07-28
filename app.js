@@ -4,7 +4,7 @@ const userRoute = require('./routes/user.route');
 const app = express();
 const mongoose = require('mongoose');
 
-let dev_db_url = 'mongodb+srv://faiqmazlan:close1998@productstutorial.omihe.mongodb.net/profiles?retryWrites=true&w=majority';
+let dev_db_url = 'mongodb+srv://faiqmazlan:<password>@profiles.omihe.mongodb.net/<dbname>?retryWrites=true&w=majority';
 const mongodb = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongodb, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.Promise = global.Promise;
