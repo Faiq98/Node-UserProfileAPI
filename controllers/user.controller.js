@@ -6,7 +6,7 @@ exports.user_all = function (req, res) {
         if (err) return next(err);
         res.send(user);
     });
-};
+}
 
 //display user details by id
 exports.user_details = function(req, res){
@@ -14,7 +14,7 @@ exports.user_details = function(req, res){
         if(err) return next (err);
         res.send(user);
     });
-};
+}
 
 //create user
 exports.user_create = function(req, res){
@@ -29,7 +29,7 @@ exports.user_create = function(req, res){
         if(err) return next(err);
         res.send('User Successfully Create !');
     });
-};
+}
 
 //update user
 exports.user_update = function(req, res){
@@ -37,7 +37,7 @@ exports.user_update = function(req, res){
         if(err) return next(err);
         res.send('Update Success');
     });
-};
+}
 
 
 //delete user
