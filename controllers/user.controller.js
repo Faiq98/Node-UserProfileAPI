@@ -1,4 +1,5 @@
 const userModel = require('../models/user.model');
+const bcrypt = require('bcrypt');
 
 //display all user
 // exports.user_all = function (req, res) {
@@ -8,12 +9,12 @@ const userModel = require('../models/user.model');
 //     });
 // }
 
-exports.user_all = async(req, res) =>{
+exports.user_all = async (req, res) => {
     const users = await userModel.find({});
 
-    try{
+    try {
         res.send(users);
-    }catch(err){
+    } catch (err) {
         res.status(500).send(err);
     }
 }
@@ -26,12 +27,12 @@ exports.user_all = async(req, res) =>{
 //     });
 // }
 
-exports.user_details = async (req, res) =>{
+exports.user_details = async (req, res) => {
     const user = await userModel.findById(req.params.id);
 
-    try{
+    try {
         res.send(user);
-    }catch(err){
+    } catch (err) {
         res.status(500).send(err);
     }
 }
@@ -51,15 +52,43 @@ exports.user_details = async (req, res) =>{
 //     });
 // }
 
-exports.user_create = async(req, res)=>{
-    const user = new userModel(req.body);
-
-    try{
-        await user.save();
-        res.send('User Successfully Create !');
-    }catch(err){
-        res.status(500).send(err);
-    }
+exports.user_signup = async (req, res) => {
+    userModel.find({ email: req.body.email })
+        .exec()
+        .then(user => {
+            if (user.length >= 1) {
+                res.status(409).json({
+                    message: 'Email already exist!'
+                });
+            } else {
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
+                    if (err) {
+                        return res.status(500).json({
+                            error: err
+                        });
+                    } else {
+                        const user = new userModel({
+                            first_name: req.body.first_name,
+                            last_name: req.body.last_name,
+                            email: req.body.email,
+                            password: hash
+                        });
+                        user
+                            .save()
+                            .then(result => {
+                                res.status(201).json({
+                                    message: 'User Created'
+                                });
+                            })
+                            .catch(err => {
+                                res.status(500).json({
+                                    error: err
+                                });
+                            });
+                    }
+                });
+            }
+        });
 }
 
 //update user
@@ -70,13 +99,13 @@ exports.user_create = async(req, res)=>{
 //     });
 // }
 
-exports.user_update = async(req, res)=>{
+exports.user_update = async (req, res) => {
     const user = await userModel.findByIdAndUpdate(req.params.id, req.body);
 
-    try{
+    try {
         await user.save();
         res.send('Update Success');
-    }catch(err){
+    } catch (err) {
         res.status(500).send(err);
     }
 }
@@ -90,12 +119,12 @@ exports.user_update = async(req, res)=>{
 //     });
 // }
 
-exports.user_delete = async(req, res) =>{
-    try{
+exports.user_delete = async (req, res) => {
+    try {
         const user = await userModel.findByIdAndDelete(req.params.id);
-        if(!user) res.status(404).send('User not found !');
+        if (!user) res.status(404).send('User not found !');
         res.status(200).send('Delete Success');
-    }catch(err){
+    } catch (err) {
         res.status(500).send(err);
     }
 }
