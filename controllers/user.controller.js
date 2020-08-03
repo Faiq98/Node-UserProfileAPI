@@ -52,7 +52,7 @@ exports.user_details = async (req, res) => {
 //     });
 // }
 
-exports.user_signup = async (req, res) => {
+exports.user_signup = (req, res) => {
     userModel.find({ email: req.body.email })
         .exec()
         .then(user => {
@@ -88,6 +88,38 @@ exports.user_signup = async (req, res) => {
                     }
                 });
             }
+        });
+}
+
+exports.user_login = (req, res, next) => {
+    userModel.find({ email: req.body.email })
+        .exec()
+        .then(user => { 
+            if (user.length < 1) {
+                res.status(401).json({
+                    message: 'Auth Failed!'
+                });
+            }
+            bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+                if (err) {
+                    return res.status(201).json({
+                        message: 'Auth Failed!'
+                    });
+                }
+                if (result) {
+                    return res.status(200).json({
+                        message: 'Auth Successful'
+                    });
+                }
+                res.status(401).json({
+                    message: 'Auth Failed!'
+                });
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            });
         });
 }
 
