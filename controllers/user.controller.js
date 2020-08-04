@@ -103,7 +103,7 @@ exports.user_login = (req, res, next) => {
             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
                 if (err) {
                     return res.status(201).json({
-                        message: 'Auth Failed (err)!'
+                        message: 'Auth Failed!'
                     });
                 }
                 if (result) {
@@ -112,7 +112,7 @@ exports.user_login = (req, res, next) => {
                     });
                 }
                 res.status(401).json({
-                    message: 'Auth Failed 401!'
+                    message: 'Auth Failed!'
                 });
             });
         })
