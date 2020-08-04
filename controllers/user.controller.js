@@ -96,14 +96,14 @@ exports.user_login = (req, res, next) => {
         .exec()
         .then(user => { 
             if (user.length < 1) {
-                res.status(401).json({
+                return res.status(401).json({
                     message: 'Auth Failed!'
                 });
             }
             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
                 if (err) {
                     return res.status(201).json({
-                        message: 'Auth Failed!'
+                        message: 'Auth Failed (err)!'
                     });
                 }
                 if (result) {
@@ -112,7 +112,7 @@ exports.user_login = (req, res, next) => {
                     });
                 }
                 res.status(401).json({
-                    message: 'Auth Failed!'
+                    message: 'Auth Failed 401!'
                 });
             });
         })
