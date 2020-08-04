@@ -90,7 +90,6 @@ exports.user_signup = (req, res) => {
             }
         });
 }
-
 exports.user_login = (req, res, next) => {
     userModel.find({ email: req.body.email })
         .exec()
