@@ -1,5 +1,6 @@
 const userModel = require('../models/user.model');
 const bcrypt = require('bcrypt');
+const contactModel = require('../models/contact.model');
 
 //display all user
 // exports.user_all = function (req, res) {
@@ -90,6 +91,39 @@ exports.user_signup = (req, res) => {
             }
         });
 }
+
+//create user
+// exports.user_reviews = function(req, res){
+//     let user = new userModel({
+//         first_name: req.body.first_name,
+//         last_name: req.body.last_name,
+//         age: req.body.age,
+//         phone: req.body.phone
+//     });
+
+//     user.save(function(err){
+//         if(err) return next(err);
+//         res.send('User Successfully Create !');
+//     });
+// }
+
+exports.user_contacts = async (req, res) => {
+    let contact = new contactModel({
+        phone_no: req.body.phone_no,
+        type: req.body.type,
+        plan: req.body.plan
+    });
+    const user = await userModel.findByIdAndUpdate(req.params.id, req.body);
+    console.log(user);
+
+    try {
+        await user.save();
+        res.send('Update Contact Success');
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
+
 exports.user_login = (req, res, next) => {
     userModel.find({ email: req.body.email })
         .exec()
