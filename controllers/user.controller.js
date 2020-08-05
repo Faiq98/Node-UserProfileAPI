@@ -29,7 +29,7 @@ exports.user_all = async (req, res) => {
 // }
 
 exports.user_details = async (req, res) => {
-    const user = await userModel.findById(req.params.id);
+    const user = await userModel.findById(req.params.id).populate('contacts');
 
     try {
         res.send(user);
@@ -108,16 +108,15 @@ exports.user_signup = (req, res) => {
 // }
 
 exports.user_contacts = async (req, res) => {
-    let contact = new contactModel({
+    let contact = new contactModel ({
         phone_no: req.body.phone_no,
         type: req.body.type,
         plan: req.body.plan
     });
-    const user = await userModel.findByIdAndUpdate(req.params.id, req.body);
-    console.log(user);
 
     try {
-        await user.save();
+        await contact.save();
+        const user = await userModel.findByIdAndUpdate(req.params.id, {$push: {contacts: contact}});
         res.send('Update Contact Success');
     } catch (err) {
         res.status(500).send(err);
