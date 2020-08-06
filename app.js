@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userRoute = require('./routes/user.route');
+const contactRoute = require('./routes/contact.route');
 const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
@@ -15,7 +16,7 @@ db.on('error', console.error.bind(console, 'MongoDB Connection Error: '));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(morgan('dev'));
-app.use('/api', userRoute);
+app.use('/api', userRoute, contactRoute);
 
 let port = 3000;
 app.listen(port, ()=>{
