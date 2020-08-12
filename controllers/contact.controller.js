@@ -3,6 +3,7 @@ const userModel = require('../models/user.model');
 
 exports.add_contacts = async (req, res) => {
     let contact = new contactModel ({
+        name: req.body.name,
         phone_no: req.body.phone_no,
         type: req.body.type,
         plan: req.body.plan
