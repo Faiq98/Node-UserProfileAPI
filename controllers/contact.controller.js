@@ -12,8 +12,12 @@ exports.add_contacts = async (req, res) => {
     try {
         await contact.save();
         const user = await userModel.findByIdAndUpdate(req.params.id, {$push: {contacts: contact}});
-        res.send('Update Contact Success');
+        res.status(200).json({
+            message: 'Add new Contact'
+        });
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({
+            error: err
+        });
     }
 }
