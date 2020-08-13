@@ -170,8 +170,12 @@ exports.user_delete = async (req, res) => {
     try {
         const user = await userModel.findByIdAndDelete(req.params.id);
         if (!user) res.status(404).send('User not found !');
-        res.status(200).send('Delete Success');
+        res.status(200).json({
+            message: 'Deleted User'
+        });
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({
+            error: err
+        });
     }
 }

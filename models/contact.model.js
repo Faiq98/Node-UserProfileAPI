@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 let ContactSchema = new Schema({
     name: {type: String},
-    phone_no: {type:String, unique: true},
+    phone_no: {type:String},
     type: {type:String},
     plan: {type: String},
     user:{
