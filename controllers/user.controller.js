@@ -151,9 +151,13 @@ exports.user_update = async (req, res) => {
 
     try {
         await user.save();
-        res.send('Update Success');
+        res.status(200).json({
+            message: 'Update Success'
+        });
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({
+            error: err
+        });
     }
 }
 
