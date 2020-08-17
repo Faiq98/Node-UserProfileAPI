@@ -1,6 +1,18 @@
 const contactModel = require('../models/contact.model');
 const userModel = require('../models/user.model');
 
+exports.contact_details = async (req, res) => {
+    const contact = await contactModel.findById(req.params.id);
+
+    try {
+        res.send(contact);
+    } catch (err) {
+        res.status(500).json({
+            error: err
+        });
+    }
+}
+
 exports.add_contacts = async (req, res) => {
     let contact = new contactModel({
         name: req.body.name,
