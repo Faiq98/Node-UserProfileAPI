@@ -23,7 +23,7 @@ exports.add_contacts = async (req, res) => {
 }
 
 exports.update_contacts = async (req, res) => {
-    const contact = await contactModel.findByIdAndUpdate(req.params.contactid, req.body);
+    const contact = await contactModel.findByIdAndUpdate(req.params.id, req.body);
     console.log(contact);
 
     try {

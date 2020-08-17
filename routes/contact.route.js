@@ -5,6 +5,6 @@ const contactController = require('../controllers/contact.controller');
 
 router.post('/contact/:id/create', contactController.add_contacts);
 router.delete('/contact/:id/delete', contactController.delete_contacts);
-router.put('/contact/:contactid/update/:userid', contactController.update_contacts);
+router.put('/contact/:id/update', contactController.update_contacts);
 
 module.exports = router;
