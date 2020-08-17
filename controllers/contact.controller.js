@@ -22,6 +22,22 @@ exports.add_contacts = async (req, res) => {
     }
 }
 
+exports.update_contacts = async (req, res) => {
+    const contact = await contactModel.findByIdAndUpdate(req.params.contactid, req.body);
+    console.log(contact);
+
+    try {
+        await contact.save();
+        res.status(200).json({
+            message: 'Update Success'
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err
+        });
+    }
+}
+
 exports.delete_contacts = async (req, res) => {
     try {
         const contact = await contactModel.findByIdAndDelete(req.params.id);
