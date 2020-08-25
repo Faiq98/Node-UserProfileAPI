@@ -107,7 +107,7 @@ exports.user_signup = (req, res) => {
 // }
 
 exports.user_login = (req, res, next) => {
-    userModel.find({ email: req.body.email })
+    userModel.find({ email: req.body.email }).populate('contacts')
         .exec()
         .then(user => { 
             if (user.length < 1) {
@@ -122,9 +122,7 @@ exports.user_login = (req, res, next) => {
                     });
                 }
                 if (result) {
-                    return res.status(200).json({
-                        message: 'Auth Successful'
-                    });
+                    return res.send(user);
                 }
                 res.status(401).json({
                     message: 'Auth Failed!'
